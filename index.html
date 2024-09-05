@@ -15,20 +15,20 @@
     </header>
     
     <dialog id="displayDialog">
-        <form>
+        <form id="dialogForm">
             <label for="title">Title</label>
-            <input type="text" id="title" name="title">
+            <input type="text" id="title" name="title" required>
             <label for="author">Author</label>
-            <input type="text" id="author" name="author">
-            <label for="length-of-book">Length of Book</label>
-            <input type="text" id="length-of-book" name="length-of-book">
+            <input type="text" id="author" name="author" required>
+            <label for="pages">Length of Book</label>
+            <input type="text" id="pages" name="length-of-book" required>
             <fieldset>
                 <legend>Have you read this book?</legend>
                 <div>
                     <label for="read">Read</label>
-                    <input type="radio" id="read" name="radio-read" value="read">
+                    <input type="radio" id="read" name="radio-read" value="read" required>
                     <label for="not-read">Not Read</label>
-                    <input type="radio" id="not-read" name="radio-read" value="not-read">
+                    <input type="radio" id="not-read" name="radio-read" value="not-read" required>
                 </div>
             </fieldset>
             <button id="cancelButton" value="cancel">Cancel</button>

@@ -18,10 +18,6 @@ cancelBook.addEventListener("click", (e) => {
     displayDialog.close();
 });
 
-const myLibrary = [
-
-];
-
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
@@ -29,13 +25,18 @@ function Book(title, author, pages, read) {
     this.read = read;
 }
 
+const myLibrary = [];
 function addBookToLibrary() {
-    console.log("book added to library")
+    let title = document.querySelector("#title");
+    let author = document.querySelector("#author");
+    let pages = document.querySelector("#pages");
+    let read = document.querySelector('input[name="radio-read"]:checked');
+
+    myLibrary.push(new Book(title.value, author.value, pages.value, read.value));
+    
+    console.log(myLibrary);
 }
 
-// const book1 = new Book("The Hobbit", "JRR Tolkein", 295, "not yet read");
-// const book2 = new Book("The Great Gatsby", "F Scott Fitzgerald", 200, "read it");
-// const book3 = new Book("The Grapes of Wrath", "John Steinbeck", 150, "read it");
 
 
 
