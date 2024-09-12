@@ -3,3 +3,5 @@ This project will consist of building a library app where users can add, delete,
 Color Palette:
 Primary #0E5BF1 (blue)
 Secondary #F1A40E (orange)
+Body background #DDF8FD
+

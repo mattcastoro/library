@@ -24,15 +24,17 @@
             <input type="text" id="pages" name="length-of-book" required>
             <fieldset>
                 <legend>Have you read this book?</legend>
-                <div>
+                <div class="radio-buttons">
                     <label for="read">Read</label>
                     <input type="radio" id="read" name="radio-read" value="read" required>
                     <label for="not-read">Not Read</label>
                     <input type="radio" id="not-read" name="radio-read" value="not-read" required>
                 </div>
             </fieldset>
-            <button id="cancelButton" value="cancel">Cancel</button>
-            <button id="confirmButton" value="confirm">Confirm</button>
+            <div class="button-set">
+                <button type="reset" id="cancelButton" value="cancel">Cancel</button>
+                <button type="button" id="confirmButton" value="confirm">Add Book</button>
+            </div>
         </form>
     </dialog>
 </body>

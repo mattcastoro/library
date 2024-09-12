@@ -16,15 +16,26 @@ confirmBook.addEventListener("click", (e) => {
 cancelBook.addEventListener("click", (e) => {
     e.preventDefault();
     displayDialog.close();
+    let radioButtonRead = document.querySelector('input[id="read"]');
+    let radioButtonNotRead = document.querySelector('input[id="not-read"]');
+    if (radioButtonRead.checked === true) {
+        radioButtonRead.checked = false;
+    } else if (radioButtonNotRead.checked === true) {
+        radioButtonNotRead.checked = false;
+    };
+    title.value = "";
+    author.value = "";
+    pages.value = "";
 });
 
+// Object constructor
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
 }
-
+// takes user's inputs and stores in array
 const myLibrary = [];
 function addBookToLibrary() {
     let title = document.querySelector("#title");
@@ -34,13 +45,10 @@ function addBookToLibrary() {
 
     myLibrary.push(new Book(title.value, author.value, pages.value, read.value));
     
-    console.log(myLibrary);
+    // clears form values
+    title.value = "";
+    author.value = "";
+    pages.value = "";
+    read.checked = false;
 }
 
-
-
-
-
-// this.info = function() {
-//     return this.title + " by " + this.author + " has " + this.pages + " pages" + " and I have " + this.read + "."
-// };
