@@ -9,6 +9,7 @@ addBook.addEventListener("click", () => {
 
 confirmBook.addEventListener("click", (e) => {
     e.preventDefault();
+    
     addBookToLibrary();
     displayDialog.close();
 });
@@ -37,6 +38,12 @@ function Book(title, author, pages, read) {
 }
 // takes user's inputs and stores in array
 const myLibrary = [];
+myLibrary.push(new Book("The Grapes of Wrath", "John Steinbeck", "300", "read"));
+myLibrary.push(new Book("The Warmth of Other Suns", "Isabel Wilkerson", "1000", "not-read"));
+myLibrary.push(new Book("A People's History of the United States", "Howard Zinn", "3000", "read"));
+
+console.log(myLibrary);
+
 function addBookToLibrary() {
     let title = document.querySelector("#title");
     let author = document.querySelector("#author");
@@ -50,5 +57,43 @@ function addBookToLibrary() {
     author.value = "";
     pages.value = "";
     read.checked = false;
+
+    displayLibrary();
 }
 
+function displayLibrary() {
+    myLibrary.forEach((element, index) => {
+        // selects main element for card population
+        const library = document.querySelector("main");
+
+        // creates card and appends to main element
+        const card = document.createElement("div");
+        card.classList.add("card");
+        library.appendChild(card);
+
+        // creates div with class title and adds title content
+        const title = document.createElement("div");
+        title.classList.add("title");
+        card.appendChild(title);
+        title.textContent = element.title;
+
+        // creates div with class author and adds author content
+        const author = document.createElement("div");
+        author.classList.add("author");
+        card.appendChild(author);
+        author.textContent = `by ${element.author}`;
+
+        // creates div with class pages and adds pages content
+        const pages = document.createElement("div");
+        pages.classList.add("pages");
+        card.appendChild(pages);
+        pages.textContent = `${element.pages} pages`;
+
+        const read = document.createElement("div");
+        read.classList.add("read");
+        card.appendChild(read);
+        read.textContent = element.read;
+    });
+}
+
+displayLibrary();

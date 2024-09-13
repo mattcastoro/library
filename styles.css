@@ -107,4 +107,30 @@ input[type="radio"]:checked {
     background-color: #F1A40E;
 }
 
+main {
+    margin: 25px;
+    display: grid;
+    gap: 25px;
+    grid-template: repeat(auto-fit, minmax(250px, 1fr)) / repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.card {
+    color: #0E5BF1;
+    background-color: #ffffff;
+    border: 2px solid #F1A40E;
+    border-radius: 15px;
+    padding: 15px;
+    display: grid;
+    gap: 10px;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.author,
+.pages {
+    font-size: 20px;
+}
 
