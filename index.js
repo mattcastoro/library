@@ -9,7 +9,6 @@ addBook.addEventListener("click", () => {
 
 confirmBook.addEventListener("click", (e) => {
     e.preventDefault();
-    
     addBookToLibrary();
     displayDialog.close();
 });
@@ -17,6 +16,11 @@ confirmBook.addEventListener("click", (e) => {
 cancelBook.addEventListener("click", (e) => {
     e.preventDefault();
     displayDialog.close();
+
+    // clears form values
+    title.value = "";
+    author.value = "";
+    pages.value = "";
     let radioButtonRead = document.querySelector('input[id="read"]');
     let radioButtonNotRead = document.querySelector('input[id="not-read"]');
     if (radioButtonRead.checked === true) {
@@ -24,9 +28,6 @@ cancelBook.addEventListener("click", (e) => {
     } else if (radioButtonNotRead.checked === true) {
         radioButtonNotRead.checked = false;
     };
-    title.value = "";
-    author.value = "";
-    pages.value = "";
 });
 
 // Object constructor
@@ -42,23 +43,33 @@ myLibrary.push(new Book("The Grapes of Wrath", "John Steinbeck", "300", "read"))
 myLibrary.push(new Book("The Warmth of Other Suns", "Isabel Wilkerson", "1000", "not-read"));
 myLibrary.push(new Book("A People's History of the United States", "Howard Zinn", "3000", "read"));
 
-console.log(myLibrary);
-
 function addBookToLibrary() {
     let title = document.querySelector("#title");
     let author = document.querySelector("#author");
     let pages = document.querySelector("#pages");
-    let read = document.querySelector('input[name="radio-read"]:checked');
-
-    myLibrary.push(new Book(title.value, author.value, pages.value, read.value));
+    let read = document.querySelector('input[name="radioRead"]:checked');
     
-    // clears form values
-    title.value = "";
-    author.value = "";
-    pages.value = "";
-    read.checked = false;
+    // form validation
+    let radioButtonRead = document.querySelector('input[id="read"]');
+    let radioButtonNotRead = document.querySelector('input[id="not-read"]');
+    if (title.value == "" 
+        || author.value == ""
+        || pages.value == ""
+        || (radioButtonRead.checked === false & radioButtonNotRead.checked === false)) {
+        alert("Please complete all fields!")
+        // prevents the closing of the alert form from closing the dialog
+        alert.preventDefault();
+    } else {
+        myLibrary.push(new Book(title.value, author.value, pages.value, read.value));
 
-    displayLibrary();
+        // clears form values
+        title.value = "";
+        author.value = "";
+        pages.value = "";
+        read.checked = false;
+
+        displayLibrary();
+    }      
 }
 
 function displayLibrary() {
