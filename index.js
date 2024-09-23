@@ -30,6 +30,10 @@ cancelBook.addEventListener("click", (e) => {
     };
 });
 
+function deleteBook() {
+    displayDeleteDialog.showModal();
+}
+
 // Object constructor
 function Book(title, author, pages, read) {
     this.title = title;
@@ -39,9 +43,10 @@ function Book(title, author, pages, read) {
 }
 // takes user's inputs and stores in array
 const myLibrary = [];
-myLibrary.push(new Book("The Grapes of Wrath", "John Steinbeck", "300", "read"));
-myLibrary.push(new Book("The Warmth of Other Suns", "Isabel Wilkerson", "1000", "not-read"));
-myLibrary.push(new Book("A People's History of the United States", "Howard Zinn", "3000", "read"));
+// myLibrary.push(new Book("The Grapes of Wrath", "John Steinbeck", "300", "read"));
+// myLibrary.push(new Book("The Warmth of Other Suns", "Isabel Wilkerson", "1000", "not-read"));
+// myLibrary.push(new Book("A People's History of the United States", "Howard Zinn", "3000", "read"));
+displayLibrary();
 
 function addBookToLibrary() {
     let title = document.querySelector("#title");
@@ -61,19 +66,20 @@ function addBookToLibrary() {
         alert.preventDefault();
     } else {
         myLibrary.push(new Book(title.value, author.value, pages.value, read.value));
+        displayLibrary();
 
         // clears form values
         title.value = "";
         author.value = "";
         pages.value = "";
         read.checked = false;
-
-        displayLibrary();
     }      
 }
 
 function displayLibrary() {
-    myLibrary.forEach((element, index) => {
+    let lastElement = myLibrary.slice(-1);
+    lastElement.forEach((element, index) => {
+        console.log(myLibrary);
         // selects main element for card population
         const library = document.querySelector("main");
 
@@ -81,6 +87,13 @@ function displayLibrary() {
         const card = document.createElement("div");
         card.classList.add("card");
         library.appendChild(card);
+
+        // creates a delete button 
+        const deleteBtn = document.createElement("button");
+        deleteBtn.setAttribute("type", "submit");
+        deleteBtn.setAttribute("id", "deleteBtn");
+        deleteBtn.textContent = "X";
+        card.appendChild(deleteBtn);
 
         // creates div with class title and adds title content
         const title = document.createElement("div");
@@ -98,13 +111,29 @@ function displayLibrary() {
         const pages = document.createElement("div");
         pages.classList.add("pages");
         card.appendChild(pages);
-        pages.textContent = `${element.pages} pages`;
+        pages.textContent = `${element.pages} pages in length`;
 
+        // creates div with class read and adds read content
         const read = document.createElement("div");
         read.classList.add("read");
         card.appendChild(read);
         read.textContent = element.read;
+
+        // creates div with toggle checkbox
+        const toggleDiv = document.createElement("div");
+        toggleDiv.classList.add("toggleDiv");
+        card.appendChild(toggleDiv);
+        const toggleLabel = document.createElement("label");
+        toggleDiv.appendChild(toggleLabel);
+        toggleLabel.textContent = "Read";
+        const toggle = document.createElement("input");
+        toggle.setAttribute("type", "checkbox");
+        toggle.setAttribute("class", "toggle");
+        toggle.setAttribute("name", "toggle");
+        toggleLabel.appendChild(toggle);
+
+        if (element.read == "read") {
+            toggle.checked = true;
+        }
     });
 }
-
-displayLibrary();

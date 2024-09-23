@@ -13,7 +13,6 @@
         <h1>My Library</h1>
         <button type="submit" id="addBook">Add Book</button>
     </header>
-    
     <dialog id="displayDialog">
         <form id="dialogForm">
             <label for="title">Title</label>
@@ -36,6 +35,13 @@
                 <button type="button" id="confirmButton" value="confirm">Add Book</button>
             </div>
         </form>
+    </dialog>
+    <dialog id="deleteDialog">
+        <h1>Are you sure you want to delete this book from your library></h1>
+        <div class="delete-book-buttons">
+            <button type="reset" id="cancelDelete" value="cancelDelete">No, keep book</button>
+            <button type="button" id="confirmDelete" value="confirmDelete">Yes, remove book</button>
+        </div>
     </dialog>
     <main></main>
 </body>
