@@ -141,7 +141,7 @@ main {
     grid-template: repeat(auto-fit, minmax(0, 1fr)) / repeat(auto-fit, minmax(250px, 350px));
 }
 
-.card {
+[class ^= card] {
     color: #0E5BF1;
     background-color: #ffffff;
     border: 1px solid #F1A40E;
@@ -153,8 +153,9 @@ main {
     align-content: center;
     position: relative;
 }
-
-#deleteBtn {
+/* uses a regular expression to match strings that begin with deleteBtn
+so each id can be unique when added to the user's library */
+[id ^= "deleteBtn"] {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -164,7 +165,9 @@ main {
     border-radius: 5px;
 }
 
-#deleteBtn:hover {
+/* uses a regular expression to match strings that begin with deleteBtn
+so each id can be unique when added to the user's library */
+[id ^= deleteBtn]:hover {
     background-color: #F1A40E;
     cursor: pointer;
 }

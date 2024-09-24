@@ -38,14 +38,26 @@ cancelBook.addEventListener("click", (e) => {
     };
 });
 
+let bookId; /* global variable for deleting the correct book */
+
 /* displays delete book confirmation dialog after user clicks the delete book button */
-function deleteBook() {
+function deleteBook(event) {
     deleteDialog.showModal();
+    bookId = event.target.id; /* stores element's id in global variable */
 }
 
 /* closes the delete book confirmation dialog after the user clicks the cancel button */
 function keepBook() {
     deleteDialog.close();
+}
+
+/* deletes book and closes the delete confirmation dialog */
+function removeBook() {
+    deleteDialog.close();
+    myLibrary.splice(bookId[(bookId.length - 4) - 1000], 1);
+    const parent = document.querySelector("main");
+    const child = document.querySelector(`.card${bookId.slice(9, 13)}`)
+    parent.removeChild(child);
 }
 
 /* Object constructor for library's set of books */
@@ -90,22 +102,23 @@ function addBookToLibrary() {
 creates a card with the object's values, and displays it to the user */
 function displayLibrary() {
     let lastElement = myLibrary.slice(-1);
-    lastElement.forEach((element, index) => {
-        
+    lastElement.forEach((element) => {
         const library = document.querySelector("main"); /* selects main element for card population */
+
+        let counted = counter();
 
         /* creates card and appends to main element */
         const card = document.createElement("div");
-        card.classList.add("card");
+        card.classList.add(`card${counted}`); /* leverages the counter for a GUID */
         library.appendChild(card);
 
         /* creates a delete button */
         const deleteBtn = document.createElement("button");
         deleteBtn.setAttribute("type", "submit");
-        deleteBtn.setAttribute("id", "deleteBtn");
+        deleteBtn.setAttribute("id", `deleteBtn${counted}`); /* leverages the counter for a GUID */
         deleteBtn.textContent = "X";
         card.appendChild(deleteBtn);
-        deleteBtn.setAttribute("onclick", "deleteBook()")
+        deleteBtn.setAttribute("onclick", "deleteBook(event)")
 
         /* creates div with class title and adds title content */
         const title = document.createElement("div");
@@ -152,3 +165,8 @@ function displayLibrary() {
     });
 }
 
+/* counter function to GUID provisions */
+let count = 1;
+function counter() {
+    return count++ + 1000;
+}
