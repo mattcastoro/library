@@ -30,7 +30,8 @@ h1 {
     cursor: pointer;
 }
 
-#displayDialog {
+#displayDialog,
+#deleteDialog {
     background-color: #0E5BF1;
     border: 1px solid #F1A40E;
     border-radius: 15px;
@@ -45,18 +46,31 @@ h1 {
     right: 0;
 }
 
+#deleteDialog {
+    text-align: center;
+    width: 350px;
+}
+
+p {
+    color: #ffffff;
+    font-size: 25px;
+    padding: 25px 40px;
+}
+
 #dialogForm {
     color: #ffffff;
     display: grid;
     gap: 10px;
 }
 
-.button-set {
+.button-set,
+.delete-book-buttons {
     display: flex;
     justify-content: space-around;
 }
 
-#confirmButton {
+#confirmButton,
+#confirmDelete {
     color: #ffffff;
     font-weight: 600;
     background-color: #F1A40E;
@@ -66,7 +80,8 @@ h1 {
     cursor: pointer;
 }
 
-#cancelButton {
+#cancelButton,
+#cancelDelete {
     color: #F1A40E;
     font-weight: 600;
     background-color: #ffffff;
@@ -189,3 +204,4 @@ main {
 .toggle:hover {
     cursor: pointer;
 }
+

@@ -1,23 +1,31 @@
+/* gets elements and stores in global variables */
 const addBook = document.getElementById("addBook");
 const displayDialog = document.getElementById("displayDialog")
 const confirmBook = document.getElementById("confirmButton");
 const cancelBook = document.getElementById("cancelButton");
+const deleteDialog = document.getElementById("deleteDialog");
 
+/* listens for the user to click the add book button, 
+then displays the dialog if clicked */
 addBook.addEventListener("click", () => {
     displayDialog.showModal();
 });
 
+/* listens for the user to click the confirmation button to add a book, 
+calls function to add book to the user's library, then closes the dialog */ 
 confirmBook.addEventListener("click", (e) => {
     e.preventDefault();
     addBookToLibrary();
     displayDialog.close();
 });
 
+/* listens for the user to click the cnacel button to add a book,
+closes the dialog, then clears the user's values added to the form */
 cancelBook.addEventListener("click", (e) => {
     e.preventDefault();
     displayDialog.close();
 
-    // clears form values
+    /* clears form values */
     title.value = "";
     author.value = "";
     pages.value = "";
@@ -30,31 +38,34 @@ cancelBook.addEventListener("click", (e) => {
     };
 });
 
+/* displays delete book confirmation dialog after user clicks the delete book button */
 function deleteBook() {
-    displayDeleteDialog.showModal();
+    deleteDialog.showModal();
 }
 
-// Object constructor
+/* closes the delete book confirmation dialog after the user clicks the cancel button */
+function keepBook() {
+    deleteDialog.close();
+}
+
+/* Object constructor for library's set of books */
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
 }
-// takes user's inputs and stores in array
-const myLibrary = [];
-// myLibrary.push(new Book("The Grapes of Wrath", "John Steinbeck", "300", "read"));
-// myLibrary.push(new Book("The Warmth of Other Suns", "Isabel Wilkerson", "1000", "not-read"));
-// myLibrary.push(new Book("A People's History of the United States", "Howard Zinn", "3000", "read"));
-displayLibrary();
+const myLibrary = []; /* global array, initialized as empty */
 
+/* obtains user's values, validates that the entire form is completed, 
+then clears the form values */
 function addBookToLibrary() {
     let title = document.querySelector("#title");
     let author = document.querySelector("#author");
     let pages = document.querySelector("#pages");
     let read = document.querySelector('input[name="radioRead"]:checked');
     
-    // form validation
+    /* form validation */
     let radioButtonRead = document.querySelector('input[id="read"]');
     let radioButtonNotRead = document.querySelector('input[id="not-read"]');
     if (title.value == "" 
@@ -62,13 +73,12 @@ function addBookToLibrary() {
         || pages.value == ""
         || (radioButtonRead.checked === false & radioButtonNotRead.checked === false)) {
         alert("Please complete all fields!")
-        // prevents the closing of the alert form from closing the dialog
-        alert.preventDefault();
+        alert.preventDefault(); /* prevents the closing of the alert form from closing the dialog */
     } else {
         myLibrary.push(new Book(title.value, author.value, pages.value, read.value));
         displayLibrary();
 
-        // clears form values
+        /* clears form values */
         title.value = "";
         author.value = "";
         pages.value = "";
@@ -76,50 +86,52 @@ function addBookToLibrary() {
     }      
 }
 
+/* grabs the last object in the array, parses the object, 
+creates a card with the object's values, and displays it to the user */
 function displayLibrary() {
     let lastElement = myLibrary.slice(-1);
     lastElement.forEach((element, index) => {
-        console.log(myLibrary);
-        // selects main element for card population
-        const library = document.querySelector("main");
+        
+        const library = document.querySelector("main"); /* selects main element for card population */
 
-        // creates card and appends to main element
+        /* creates card and appends to main element */
         const card = document.createElement("div");
         card.classList.add("card");
         library.appendChild(card);
 
-        // creates a delete button 
+        /* creates a delete button */
         const deleteBtn = document.createElement("button");
         deleteBtn.setAttribute("type", "submit");
         deleteBtn.setAttribute("id", "deleteBtn");
         deleteBtn.textContent = "X";
         card.appendChild(deleteBtn);
+        deleteBtn.setAttribute("onclick", "deleteBook()")
 
-        // creates div with class title and adds title content
+        /* creates div with class title and adds title content */
         const title = document.createElement("div");
         title.classList.add("title");
         card.appendChild(title);
         title.textContent = element.title;
 
-        // creates div with class author and adds author content
+        /* creates div with class author and adds author content */
         const author = document.createElement("div");
         author.classList.add("author");
         card.appendChild(author);
         author.textContent = `by ${element.author}`;
 
-        // creates div with class pages and adds pages content
+        /* creates div with class pages and adds pages content */
         const pages = document.createElement("div");
         pages.classList.add("pages");
         card.appendChild(pages);
         pages.textContent = `${element.pages} pages in length`;
 
-        // creates div with class read and adds read content
+        /* creates div with class read and adds read content */
         const read = document.createElement("div");
         read.classList.add("read");
         card.appendChild(read);
         read.textContent = element.read;
 
-        // creates div with toggle checkbox
+        /* creates div with toggle checkbox */
         const toggleDiv = document.createElement("div");
         toggleDiv.classList.add("toggleDiv");
         card.appendChild(toggleDiv);
@@ -132,8 +144,11 @@ function displayLibrary() {
         toggle.setAttribute("name", "toggle");
         toggleLabel.appendChild(toggle);
 
+        /* auto-checks the box if the book has been read by the user 
+        upon adding the book to the library */
         if (element.read == "read") {
             toggle.checked = true;
         }
     });
 }
+
