@@ -38,12 +38,12 @@ cancelBook.addEventListener("click", (e) => {
     };
 });
 
-let bookId; /* global variable for deleting the correct book */
+let bookId; /* global variable to store the element id associated with the user's action */
 
 /* displays delete book confirmation dialog after user clicks the delete book button */
 function deleteBook(event) {
     deleteDialog.showModal();
-    bookId = event.target.id; /* stores element's id in global variable */
+    bookId = event.target.id; /* stores element's id in the global variable */
 }
 
 /* closes the delete book confirmation dialog after the user clicks the cancel button */
@@ -62,13 +62,12 @@ function removeBook() {
 
 function updateReadStatus(event) {
     bookId = event.target.id;
-    console.log(bookId);
-    if (myLibrary[(bookId.length - 4) - 1000].read === "read") {
-        myLibrary[(bookId.length - 4) - 1000].read = "not-read";
+    index = myLibrary.findIndex(index => index.idNum === Number(bookId.slice(16, 21)))
+    if (myLibrary[index].read === "read") {
+        myLibrary[index].read = "not-read";
     } else {
-        myLibrary[(bookId.length - 4) - 1000].read = "read"
+        myLibrary[index].read = "read"
     };
-
 }
 
 /* Object constructor for library's set of books */
@@ -149,12 +148,6 @@ function displayLibrary() {
         pages.classList.add("pages");
         card.appendChild(pages);
         pages.textContent = `${element.pages} pages in length`;
-
-        /* creates div with class read and adds read content */
-        const read = document.createElement("div");
-        read.classList.add("read");
-        card.appendChild(read);
-        read.textContent = element.read;
 
         /* creates div with toggle checkbox */
         const toggleDiv = document.createElement("div");

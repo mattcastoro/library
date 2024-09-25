@@ -27,7 +27,12 @@ h1 {
     width: 150px;
     padding: 10px 30px;
     font-size: 16px;
+}
+
+#addBook:hover {
     cursor: pointer;
+    color: #F1A40E;
+    background-color: #ffffff;
 }
 
 #displayDialog,
@@ -77,7 +82,13 @@ p {
     border: 1px solid #F1A40E;
     border-radius: 30px;
     padding: 5px 15px;
+}
+
+#confirmButton:hover,
+#confirmDelete:hover {
     cursor: pointer;
+    color: #F1A40E;
+    background-color: #ffffff;
 }
 
 #cancelButton,
@@ -88,7 +99,13 @@ p {
     border: 1px solid #F1A40E;
     border-radius: 30px;
     padding: 5px 15px;
+}
+
+#cancelButton:hover,
+#cancelDelete:hover {
     cursor: pointer;
+    color: #ffffff;
+    background-color: #F1A40E;
 }
 
 #dialogForm input {
