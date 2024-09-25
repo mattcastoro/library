@@ -54,18 +54,30 @@ function keepBook() {
 /* deletes book and closes the delete confirmation dialog */
 function removeBook() {
     deleteDialog.close();
-    myLibrary.splice(bookId[(bookId.length - 4) - 1000], 1);
+    myLibrary.splice(myLibrary.findIndex(index => index.idNum === Number(bookId.slice(9, 14))), 1);
     const parent = document.querySelector("main");
-    const child = document.querySelector(`.card${bookId.slice(9, 13)}`)
+    const child = document.querySelector(`.card${bookId.slice(9, 14)}`)
     parent.removeChild(child);
 }
 
+function updateReadStatus(event) {
+    bookId = event.target.id;
+    console.log(bookId);
+    if (myLibrary[(bookId.length - 4) - 1000].read === "read") {
+        myLibrary[(bookId.length - 4) - 1000].read = "not-read";
+    } else {
+        myLibrary[(bookId.length - 4) - 1000].read = "read"
+    };
+
+}
+
 /* Object constructor for library's set of books */
-function Book(title, author, pages, read) {
+function Book(title, author, pages, read, _idNum) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
+    this.idNum = counter();
 }
 const myLibrary = []; /* global array, initialized as empty */
 
@@ -105,17 +117,17 @@ function displayLibrary() {
     lastElement.forEach((element) => {
         const library = document.querySelector("main"); /* selects main element for card population */
 
-        let counted = counter();
+        // let counted = counter();
 
         /* creates card and appends to main element */
         const card = document.createElement("div");
-        card.classList.add(`card${counted}`); /* leverages the counter for a GUID */
+        card.classList.add(`card${element.idNum}`); /* creates a unique class */
         library.appendChild(card);
 
         /* creates a delete button */
         const deleteBtn = document.createElement("button");
         deleteBtn.setAttribute("type", "submit");
-        deleteBtn.setAttribute("id", `deleteBtn${counted}`); /* leverages the counter for a GUID */
+        deleteBtn.setAttribute("id", `deleteBtn${element.idNum}`); /* creates a unique id */
         deleteBtn.textContent = "X";
         card.appendChild(deleteBtn);
         deleteBtn.setAttribute("onclick", "deleteBook(event)")
@@ -154,7 +166,9 @@ function displayLibrary() {
         const toggle = document.createElement("input");
         toggle.setAttribute("type", "checkbox");
         toggle.setAttribute("class", "toggle");
+        toggle.setAttribute("id", `updateReadStatus${element.idNum}`) /* creates a unique id */
         toggle.setAttribute("name", "toggle");
+        toggle.setAttribute("onchange", "updateReadStatus(event)")
         toggleLabel.appendChild(toggle);
 
         /* auto-checks the box if the book has been read by the user 
@@ -165,8 +179,8 @@ function displayLibrary() {
     });
 }
 
-/* counter function to GUID provisions */
-let count = 1;
+/* counter function for GUID provisions */
+let count = 10001;
 function counter() {
-    return count++ + 1000;
+    return count++;
 }
