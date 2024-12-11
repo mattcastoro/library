@@ -70,14 +70,17 @@ function updateReadStatus(event) {
     };
 }
 
-/* Object constructor for library's set of books */
-function Book(title, author, pages, read, _idNum) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-    this.idNum = counter();
+/* Class for library's set of books */
+class Book {
+    constructor(title, author, pages, read, _idNum) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+        this.idNum = counter();
+    }
 }
+
 const myLibrary = []; /* global array, initialized as empty */
 
 /* obtains user's values, validates that the entire form is completed, 
