@@ -74,6 +74,10 @@ p {
     justify-content: space-around;
 }
 
+.button-set {
+  padding: 35px 0 0 0;
+}
+
 #confirmButton,
 #confirmDelete {
     color: #ffffff;
@@ -108,6 +112,10 @@ p {
     background-color: #F1A40E;
 }
 
+.input-container {
+  display: grid;
+}
+
 #dialogForm input {
     border: 2px solid #0E5BF1;
     border-radius: 15px;
@@ -115,10 +123,23 @@ p {
     padding: 2.5px 15px;
 }
 
+#dialogForm span.active {
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 0 0 10px 10px;
+}
+
 #dialogForm input[type="text"]:focus {
     outline: none;
     border: 2px solid #F1A40E;
 }
+
+/* #dialogForm input[type="text"]:user-invalid:not(:focus) {
+  border: 2px dashed red;
+} */
 
 fieldset {
     position: relative;
@@ -135,7 +156,7 @@ legend {
 }
 
 .radio-buttons {
-    padding: 35px 0;
+    padding: 35px 0 0 0;
     display: flex;
     align-items: center;
     gap: 15px;

@@ -1,57 +1,43 @@
-/* gets elements and stores in global variables */
-const addBook = document.getElementById("addBook");
 const displayDialog = document.getElementById("displayDialog")
-const confirmBook = document.getElementById("confirmButton");
-const cancelBook = document.getElementById("cancelButton");
 const deleteDialog = document.getElementById("deleteDialog");
 
-/* listens for the user to click the add book button, 
-then displays the dialog if clicked */
-addBook.addEventListener("click", () => {
-    displayDialog.showModal();
-});
+const title = document.getElementById("title");
+const titleError = document.getElementById("titleError");
+const author = document.getElementById("author");
+const authorError = document.getElementById("authorError");
+const pages = document.querySelector("#pages");
 
-/* listens for the user to click the confirmation button to add a book, 
-calls function to add book to the user's library, then closes the dialog */ 
-confirmBook.addEventListener("click", (e) => {
-    e.preventDefault();
-    addBookToLibrary();
-    displayDialog.close();
-});
+const lengthOfBook = document.getElementById("pages");
+const pagesError = document.getElementById("pagesError");
+const radioError = document.getElementById("radioError");
 
-/* listens for the user to click the cnacel button to add a book,
-closes the dialog, then clears the user's values added to the form */
-cancelBook.addEventListener("click", (e) => {
-    e.preventDefault();
-    displayDialog.close();
-
-    /* clears form values */
-    title.value = "";
-    author.value = "";
-    pages.value = "";
-    let radioButtonRead = document.querySelector('input[id="read"]');
-    let radioButtonNotRead = document.querySelector('input[id="not-read"]');
-    if (radioButtonRead.checked === true) {
-        radioButtonRead.checked = false;
-    } else if (radioButtonNotRead.checked === true) {
-        radioButtonNotRead.checked = false;
-    };
-});
-
-let bookId; /* global variable to store the element id associated with the user's action */
-
-/* displays delete book confirmation dialog after user clicks the delete book button */
-function deleteBook(event) {
-    deleteDialog.showModal();
-    bookId = event.target.id; /* stores element's id in the global variable */
+function displayAddBook() {
+  displayDialog.showModal();
 }
 
-/* closes the delete book confirmation dialog after the user clicks the cancel button */
+function confirmBook() {
+  validateForm();
+  if (findErrors() == "no errors") {
+    addBookToLibrary();
+    displayDialog.close();
+  }
+}
+
+function cancelBook() {
+  displayDialog.close();
+  clearFields();
+}
+
+let bookId;
+function deleteBook(event) {
+    deleteDialog.showModal();
+    bookId = event.target.id;
+}
+
 function keepBook() {
     deleteDialog.close();
 }
 
-/* deletes book and closes the delete confirmation dialog */
 function removeBook() {
     deleteDialog.close();
     myLibrary.splice(myLibrary.findIndex(index => index.idNum === Number(bookId.slice(9, 14))), 1);
@@ -70,7 +56,6 @@ function updateReadStatus(event) {
     };
 }
 
-/* Class for library's set of books */
 class Book {
     constructor(title, author, pages, read, _idNum) {
         this.title = title;
@@ -81,78 +66,121 @@ class Book {
     }
 }
 
-const myLibrary = []; /* global array, initialized as empty */
-
-/* obtains user's values, validates that the entire form is completed, 
-then clears the form values */
+const myLibrary = [];
 function addBookToLibrary() {
-    let title = document.querySelector("#title");
-    let author = document.querySelector("#author");
-    let pages = document.querySelector("#pages");
-    let read = document.querySelector('input[name="radioRead"]:checked');
-    
-    /* form validation */
-    let radioButtonRead = document.querySelector('input[id="read"]');
-    let radioButtonNotRead = document.querySelector('input[id="not-read"]');
-    if (title.value == "" 
-        || author.value == ""
-        || pages.value == ""
-        || (radioButtonRead.checked === false & radioButtonNotRead.checked === false)) {
-        alert("Please complete all fields!")
-        alert.preventDefault(); /* prevents the closing of the alert form from closing the dialog */
-    } else {
-        myLibrary.push(new Book(title.value, author.value, pages.value, read.value));
-        displayLibrary();
-
-        /* clears form values */
-        title.value = "";
-        author.value = "";
-        pages.value = "";
-        read.checked = false;
-    }      
+  const read = document.querySelector('input[name="radioRead"]:checked');
+  myLibrary.push(new Book(title.value, author.value, pages.value, read.value));
+  displayLibrary();
+  clearFields();
 }
 
-/* grabs the last object in the array, parses the object, 
-creates a card with the object's values, and displays it to the user */
+function validateForm() {
+  if (title.validity.valueMissing) {
+    titleError.textContent = "Please enter a value for the title.";
+    titleError.className = "error active";
+  } else {
+    titleError.textContent = "";
+    titleError.className = "error";
+  }
+
+  if (author.validity.valueMissing) {
+    authorError.textContent = "Please enter a value for the author.";
+    authorError.className = "error active";
+  } else {
+    authorError.textContent = "";
+    authorError.className = "error";
+  }
+
+  if (lengthOfBook.validity.valueMissing) {
+    pagesError.textContent = "Please enter a value for the length of book.";
+    pagesError.className = "error active";
+  } else if (lengthOfBook.validity.patternMismatch) {
+    pagesError.textContent = "Please enter a numerical value for the length of book.";
+    pagesError.className = "error active";
+  } else {
+    pagesError.textContent = "";
+    pagesError.className = "error";
+  }
+
+  validateRadio()
+}
+  
+
+function validateRadio() {
+  const read = document.getElementsByName("radioRead");
+  for (let i = 0; i < read.length; i++) {
+    if (read[i].checked) {
+      radioError.textContent = "";
+      radioError.className = "error";
+      return true;
+    }
+  }
+  radioError.textContent = "Please select whether you have read this book.";
+  radioError.className = "error active";
+}
+
+function findErrors() {
+  const activeErrors = document.getElementsByClassName("active");
+
+  if (activeErrors.length == 0) {
+    return "no errors";
+  } else {
+    return "errors";
+  }
+}
+
+function clearFields() {
+  title.value = "";
+  titleError.textContent = "";
+  titleError.className = "error";
+
+  author.value = "";
+  authorError.textContent = "";
+  authorError.className = "error";
+
+  pages.value = "";
+  pagesError.textContent = "";
+  pagesError.className = "error";
+
+  const read = document.getElementsByName("radioRead");
+  for (let i = 0; i < read.length; i++) {
+    read[i].checked = false;
+  }
+  radioError.textContent = "";  
+  radioError.className = "error";
+}
+
 function displayLibrary() {
     let lastElement = myLibrary.slice(-1);
     lastElement.forEach((element) => {
-        const library = document.querySelector("main"); /* selects main element for card population */
+        const library = document.querySelector("main");
 
-        // let counted = counter();
-
-        /* creates card and appends to main element */
         const card = document.createElement("div");
-        card.classList.add(`card${element.idNum}`); /* creates a unique class */
+        card.classList.add(`card${element.idNum}`);
         library.appendChild(card);
 
-        /* creates a delete button */
         const deleteBtn = document.createElement("button");
         deleteBtn.setAttribute("type", "submit");
-        deleteBtn.setAttribute("id", `deleteBtn${element.idNum}`); /* creates a unique id */
+        deleteBtn.setAttribute("id", `deleteBtn${element.idNum}`);
         deleteBtn.textContent = "X";
         card.appendChild(deleteBtn);
         deleteBtn.setAttribute("onclick", "deleteBook(event)")
 
-        /* creates div with class title and adds title content */
         const title = document.createElement("div");
         title.classList.add("title");
         card.appendChild(title);
         title.textContent = element.title;
 
-        /* creates div with class author and adds author content */
         const author = document.createElement("div");
         author.classList.add("author");
         card.appendChild(author);
         author.textContent = `by ${element.author}`;
 
-        /* creates div with class pages and adds pages content */
         const pages = document.createElement("div");
         pages.classList.add("pages");
         card.appendChild(pages);
         pages.textContent = `${element.pages} pages in length`;
 
-        /* creates div with toggle checkbox */
         const toggleDiv = document.createElement("div");
         toggleDiv.classList.add("toggleDiv");
         card.appendChild(toggleDiv);
@@ -162,20 +190,17 @@ function displayLibrary() {
         const toggle = document.createElement("input");
         toggle.setAttribute("type", "checkbox");
         toggle.setAttribute("class", "toggle");
-        toggle.setAttribute("id", `updateReadStatus${element.idNum}`) /* creates a unique id */
+        toggle.setAttribute("id", `updateReadStatus${element.idNum}`);
         toggle.setAttribute("name", "toggle");
-        toggle.setAttribute("onchange", "updateReadStatus(event)")
+        toggle.setAttribute("onchange", "updateReadStatus(event)");
         toggleLabel.appendChild(toggle);
 
-        /* auto-checks the box if the book has been read by the user 
-        upon adding the book to the library */
         if (element.read == "read") {
             toggle.checked = true;
         }
     });
 }
 
-/* counter function for GUID provisions */
 let count = 10001;
 function counter() {
     return count++;
